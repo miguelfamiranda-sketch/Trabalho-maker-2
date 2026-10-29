@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conecta Vale | Ajuda que aproxima</title>
+  <style>
+    :root {
+      --navy: #173b35;
+      --green: #286a52;
+      --green2: #e8f4ec;
+      --cream: #f7f7f1;
+      --ink: #20312c;
+      --muted: #64736d;
+      --orange: #d97939;
+      --line: #dce5de;
+      --white: #fff;
+      --red: #b64242;
+      --shadow: 0 12px 34px rgba(25, 59, 47, .08);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); background: var(--cream); }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .topbar { background: var(--navy); color: white; padding: 14px 5vw; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    .brand { display:flex; gap:10px; align-items:center; font-weight:800; font-size:1.1rem; letter-spacing:-.3px; }
+    .brand-mark { display:grid; place-items:center; width:38px; height:38px; border-radius:12px; background:#d9efdc; color:var(--navy); font-size:21px; }
+    .brand small { display:block; color:#c8d9d0; font-size:.7rem; font-weight:500; letter-spacing:.2px; margin-top:2px; }
+    .top-note { font-size:.85rem; color:#dce9e1; }
+    .hero { background: linear-gradient(115deg, #173b35 0%, #286a52 70%, #3b8062 100%); color:white; padding:56px 5vw 76px; }
+    .hero-inner { max-width:1120px; margin:auto; display:grid; grid-template-columns:1.3fr .7fr; gap:35px; align-items:center; }
+    .eyebrow { color:#bde1c7; text-transform:uppercase; font-size:.75rem; letter-spacing:1.7px; font-weight:800; }
+    h1 { font-size:clamp(2.1rem, 4vw, 3.7rem); line-height:1.04; letter-spacing:-1.8px; margin:13px 0 18px; max-width:700px; }
+    .hero p { color:#e0eee5; line-height:1.7; max-width:650px; margin:0 0 25px; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .btn { border:0; border-radius:11px; padding:12px 17px; font-weight:750; transition:transform .15s, filter .15s; }
+    .btn:hover { transform:translateY(-1px); filter:brightness(.98); }
+    .btn-primary { background:#e5f3e7; color:var(--navy); }
+    .btn-white { background:white; color:var(--navy); }
+    .btn-outline { background:transparent; border:1px solid #b9d6c4; color:white; }
+    .hero-card { background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.2); border-radius:22px; padding:24px; backdrop-filter:blur(5px); }
+    .hero-card .big { font-size:2.4rem; font-weight:850; letter-spacing:-1px; }
+    .hero-card p { font-size:.88rem; margin:5px 0 18px; }
+    .mini-progress { height:8px; background:rgba(255,255,255,.18); border-radius:20px; overflow:hidden; }
+    .mini-progress span { display:block; height:100%; width:63%; background:#e4b36f; border-radius:20px; }
+    .hero-card small { display:block; color:#d9e8df; margin-top:10px; }
+    main { max-width:1120px; margin:-34px auto 0; padding:0 5vw 50px; position:relative; }
+    .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .stat { background:white; border:1px solid var(--line); border-radius:16px; padding:19px; box-shadow:var(--shadow); }
+    .stat-label { font-size:.8rem; color:var(--muted); margin-bottom:9px; }
+    .stat-value { font-size:1.85rem; font-weight:850; letter-spacing:-.7px; }
+    .stat-foot { font-size:.75rem; color:var(--muted); margin-top:6px; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:16px; margin:39px 0 17px; }
+    h2 { margin:0; font-size:1.55rem; letter-spacing:-.5px; }
+    .section-head p { color:var(--muted); margin:7px 0 0; font-size:.9rem; }
+    .tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+    .tab { background:#edf1eb; color:#50635a; border:1px solid transparent; padding:10px 14px; border-radius:10px; font-weight:750; }
+    .tab.active { background:var(--navy); color:white; }
+    .workspace { display:grid; grid-template-columns: .85fr 1.15fr; gap:18px; align-items:start; }
+    .panel { background:white; border:1px solid var(--line); border-radius:18px; padding:23px; box-shadow:var(--shadow); }
+    .panel h3 { margin:0 0 6px; font-size:1.15rem; }
+    .panel .sub { color:var(--muted); font-size:.86rem; margin:0 0 20px; line-height:1.5; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+    .field { display:flex; flex-direction:column; gap:6px; }
+    .field.full { grid-column:1 / -1; }
+    label { font-size:.82rem; font-weight:750; }
+    input, select, textarea { width:100%; border:1px solid #d6e0d8; border-radius:10px; background:#fcfdfb; padding:11px 12px; color:var(--ink); outline:none; }
+    input:focus, select:focus, textarea:focus { border-color:var(--green); box-shadow:0 0 0 3px rgba(40,106,82,.1); }
+    textarea { min-height:78px; resize:vertical; }
+    .hint { color:var(--muted); font-size:.75rem; line-height:1.4; }
+    .urgency { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+    .urgency label { font-weight:600; font-size:.78rem; border:1px solid var(--line); border-radius:9px; padding:10px 8px; display:flex; align-items:center; gap:6px; cursor:pointer; }
+    .urgency input { width:auto; margin:0; accent-color:var(--green); }
+    .submit { width:100%; margin-top:17px; background:var(--green); color:white; }
+    .resource-list { display:grid; gap:11px; }
+    .resource-row { border:1px solid var(--line); border-radius:13px; padding:14px; display:flex; align-items:center; gap:12px; }
+    .resource-icon { width:42px; height:42px; border-radius:12px; display:grid; place-items:center; background:var(--green2); font-size:1.25rem; flex-shrink:0; }
+    .resource-main { flex:1; min-width:0; }
+    .resource-main strong { display:block; font-size:.92rem; }
+    .resource-main small { display:block; color:var(--muted); margin-top:4px; font-size:.76rem; }
+    .resource-amount { font-weight:850; text-align:right; white-space:nowrap; }
+    .resource-amount small { display:block; color:var(--muted); font-weight:500; font-size:.72rem; margin-top:3px; }
+    .tag { display:inline-flex; align-items:center; border-radius:99px; padding:4px 8px; font-size:.69rem; font-weight:800; }
+    .tag.high { background:#fde8e4; color:#a13e34; }
+    .tag.medium { background:#fff0d9; color:#8a5b17; }
+    .tag.low { background:#e5f3e8; color:#2d714a; }
+    .request-card { border:1px solid var(--line); border-radius:14px; padding:16px; }
+    .request-top { display:flex; justify-content:space-between; gap:10px; align-items:start; }
+    .request-card h4 { margin:0 0 5px; }
+    .request-card p { color:var(--muted); font-size:.82rem; line-height:1.5; margin:8px 0 12px; }
+    .request-meta { display:flex; gap:8px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:.75rem; }
+    .request-actions { display:flex; gap:8px; margin-top:13px; }
+    .btn-small { padding:8px 11px; font-size:.78rem; border-radius:9px; border:1px solid var(--line); background:white; color:var(--navy); font-weight:750; }
+    .btn-small.green { background:var(--green2); border-color:#cde2d1; }
+    .request-list { display:grid; gap:11px; }
+    .empty { border:1px dashed #cbd8ce; border-radius:13px; text-align:center; padding:28px 16px; color:var(--muted); font-size:.9rem; }
+    .notice { background:#fff8e9; border:1px solid #f1dfb6; color:#735a2b; border-radius:12px; padding:12px 14px; font-size:.78rem; line-height:1.5; margin-top:14px; }
+
+    .tracking-section { margin-top: 34px; }
+    .tracking-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; }
+    .tracking-title { display:flex; justify-content:space-between; align-items:start; gap:10px; }
+    .tracking-title .sub { margin:7px 0 17px; }
+    .count-pill { flex-shrink:0; background:var(--green2); color:var(--green); border-radius:99px; padding:6px 9px; font-size:.72rem; font-weight:800; }
+    .dashboard-item { border:1px solid var(--line); border-radius:12px; padding:13px; }
+    .dashboard-item + .dashboard-item { margin-top:10px; }
+    .dashboard-item-head { display:flex; justify-content:space-between; align-items:start; gap:10px; }
+    .dashboard-item strong { font-size:.88rem; }
+    .dashboard-item p { color:var(--muted); font-size:.78rem; line-height:1.5; margin:7px 0 0; overflow-wrap:anywhere; }
+    .dashboard-meta { display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin-top:9px; color:var(--muted); font-size:.73rem; }
+    @media (max-width:820px) { .tracking-grid { grid-template-columns:1fr; } }
+
+    .about { margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .about-card { border-radius:17px; padding:22px; background:#eaf2e9; }
+    .about-card:nth-child(2) { background:#f8eadb; }
+    .about-card h3 { margin:0 0 8px; }
+    .about-card p { margin:0; color:#52655a; font-size:.87rem; line-height:1.6; }
+    footer { background:#173b35; color:#dce9e1; padding:26px 5vw; text-align:center; font-size:.8rem; line-height:1.7; }
+    footer strong { color:white; }
+    .toast { position:fixed; bottom:18px; left:50%; transform:translate(-50%, 130px); background:#173b35; color:white; padding:13px 18px; border-radius:12px; box-shadow:var(--shadow); transition:transform .25s; z-index:20; max-width:90vw; font-size:.88rem; }
+    .toast.show { transform:translate(-50%,0); }
+    .hidden { display:none !important; }
+    @media (max-width:820px) {
+      .hero-inner, .workspace { grid-template-columns:1fr; }
+      .hero-card { max-width:430px; }
+      .stats { grid-template-columns:repeat(2,1fr); }
+      .top-note { display:none; }
+      .hero { padding-top:40px; }
+      .section-head { align-items:start; flex-direction:column; }
+    }
+    @media (max-width:520px) {
+      .topbar { padding:12px 5vw; }
+      .hero { padding-bottom:60px; }
+      main { padding-left:4vw; padding-right:4vw; }
+      .stats { gap:9px; }
+      .stat { padding:14px; }
+      .stat-value { font-size:1.55rem; }
+      .form-grid { grid-template-columns:1fr; }
+      .field.full { grid-column:auto; }
+      .panel { padding:17px; }
+      .about { grid-template-columns:1fr; }
+      .urgency label { font-size:.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">＋</div>
+      <div>Conecta Vale<small>Ajuda que aproxima</small></div>
+    </div>
+    <div class="top-note">Vale do Horizonte · Projeto comunitário 2026</div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Uma comunidade mais forte</div>
+        <h1>Quando a gente se conecta, ninguém fica para trás.</h1>
+        <p>O Conecta Vale aproxima quem pode ajudar de quem precisa de ajuda. Aqui, recursos e necessidades se encontram para que a nossa cidade tenha mais cuidado, dignidade e esperança.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="setMode('doar')">Quero entregar ajuda</button>
+          <button class="btn btn-outline" onclick="setMode('pedir')">Preciso de ajuda</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="eyebrow">Nosso objetivo</div>
+        <div class="big">Ajuda no lugar certo</div>
+        <p>Organizar doações, entender as necessidades e priorizar quem precisa com mais urgência.</p>
+        <div class="mini-progress"><span id="heroProgress"></span></div>
+        <small id="heroProgressText">Recursos disponíveis para atender aos pedidos</small>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="stats" aria-label="Resumo dos recursos">
+      <div class="stat"><div class="stat-label">Alimentos disponíveis</div><div class="stat-value" id="foodStat">240 kg</div><div class="stat-foot">Estoque comunitário</div></div>
+      <div class="stat"><div class="stat-label">Água disponível</div><div class="stat-value" id="waterStat">520 L</div><div class="stat-foot">Litros registrados</div></div>
+      <div class="stat"><div class="stat-label">Pedidos em aberto</div><div class="stat-value" id="openStat">8</div><div class="stat-foot">Aguardando atendimento</div></div>
+      <div class="stat"><div class="stat-label">Pessoas precisando</div><div class="stat-value" id="peopleStat">23</div><div class="stat-foot">Estimativa cadastrada</div></div>
+    </section>
+
+    <div class="section-head">
+      <div><h2>Como podemos ajudar?</h2><p>Escolha uma opção para registrar uma doação ou solicitar recursos.</p></div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" id="tabDoar" onclick="setMode('doar')">＋ Entregar ajuda</button>
+      <button class="tab" id="tabPedir" onclick="setMode('pedir')">♡ Pedir ajuda</button>
+    </div>
+
+    <section class="workspace">
+      <div class="panel">
+        <div id="donateForm">
+          <h3>Quero entregar ajuda</h3>
+          <p class="sub">Você é de fora ou tem recursos para compartilhar? Registre sua oferta para a equipe organizar o recebimento.</p>
+          <form id="formDoar">
+            <div class="form-grid">
+              <div class="field full"><label for="donorName">Seu nome ou organização</label><input id="donorName" required placeholder="Ex.: Associação Esperança"></div>
+              <div class="field"><label for="donationType">Tipo de recurso</label><select id="donationType" required><option value="Alimentos">Alimentos</option><option value="Água">Água potável</option><option value="Higiene">Higiene pessoal</option><option value="Roupas">Roupas e cobertores</option><option value="Material escolar">Material escolar</option><option value="Medicamentos">Medicamentos (com orientação)</option><option value="Outro">Outro recurso</option></select></div>
+              <div class="field"><label for="donationQty">Quantidade</label><input id="donationQty" required type="number" min="1" step="any" placeholder="Ex.: 25"></div>
+              <div class="field"><label for="donationUnit">Unidade</label><select id="donationUnit"><option>kg</option><option>litros</option><option>unidades</option><option>caixas</option><option>kits</option></select></div>
+              <div class="field"><label for="donationContact">Contato (opcional)</label><input id="donationContact" placeholder="E-mail ou telefone"></div>
+              <div class="field full"><label for="donationNote">Observações</label><textarea id="donationNote" placeholder="Ex.: alimentos não perecíveis, validade, melhor horário para entrega..."></textarea></div>
+            </div>
+            <button class="btn submit" type="submit">Registrar oferta de ajuda</button>
+            <div class="hint" style="margin-top:9px">No protótipo, o registro fica salvo somente neste navegador.</div>
+          </form>
+        </div>
+        <div id="requestForm" class="hidden">
+          <h3>Preciso de ajuda</h3>
+          <p class="sub">Conte do que você precisa. A equipe poderá usar essas informações para organizar prioridades e recursos.</p>
+          <form id="formPedir">
+            <div class="form-grid">
+              <div class="field full"><label for="residentName">Nome ou identificação</label><input id="residentName" required placeholder="Ex.: Morador(a) ou família Silva"></div>
+              <div class="field"><label for="needType">O que você precisa?</label><select id="needType" required><option value="Alimentos">Alimentos</option><option value="Água">Água potável</option><option value="Higiene">Higiene pessoal</option><option value="Roupas">Roupas e cobertores</option><option value="Material escolar">Material escolar</option><option value="Medicamentos">Medicamentos (com orientação)</option><option value="Outro">Outro recurso</option></select></div>
+              <div class="field"><label for="needQty">Quantidade necessária</label><input id="needQty" required type="number" min="1" step="any" placeholder="Ex.: 5"></div>
+              <div class="field"><label for="needUnit">Unidade</label><select id="needUnit"><option>kg</option><option>litros</option><option>unidades</option><option>caixas</option><option>kits</option></select></div>
+              <div class="field"><label for="peopleCount">Pessoas na família</label><input id="peopleCount" type="number" min="1" value="1" required></div>
+              <div class="field full"><label>Qual é o nível de urgência?</label><div class="urgency">
+                <label><input type="radio" name="urgency" value="Baixa"> Baixa</label>
+                <label><input type="radio" name="urgency" value="Média" checked> Média</label>
+                <label><input type="radio" name="urgency" value="Alta"> Alta</label>
+              </div><span class="hint">Alta: necessidade imediata, como falta de água ou alimento essencial.</span></div>
+              <div class="field full"><label for="needNote">Explique sua necessidade (opcional)</label><textarea id="needNote" placeholder="Conte brevemente a situação e qualquer informação importante."></textarea></div>
+            </div>
+            <button class="btn submit" type="submit">Enviar pedido de ajuda</button>
+            <div class="hint" style="margin-top:9px">Evite inserir endereço completo, documentos ou informações pessoais sensíveis.</div>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 id="listTitle">Pedidos que precisam de atenção</h3>
+        <p class="sub" id="listSub">Veja as necessidades cadastradas e o nível de urgência.</p>
+        <div class="resource-list" id="stockList">
+          <div class="resource-row"><div class="resource-icon">🥫</div><div class="resource-main"><strong>Alimentos</strong><small>Arroz, feijão e enlatados</small></div><div class="resource-amount" id="foodRow">240 kg<small>disponíveis</small></div></div>
+          <div class="resource-row"><div class="resource-icon">💧</div><div class="resource-main"><strong>Água potável</strong><small>Para consumo e preparo de alimentos</small></div><div class="resource-amount" id="waterRow">520 L<small>disponíveis</small></div></div>
+          <div class="resource-row"><div class="resource-icon">🧼</div><div class="resource-main"><strong>Kits de higiene</strong><small>Sabonete, pasta e itens básicos</small></div><div class="resource-amount" id="hygieneRow">64 kits<small>disponíveis</small></div></div>
+          <div class="resource-row"><div class="resource-icon">🧥</div><div class="resource-main"><strong>Roupas e cobertores</strong><small>Para crianças e adultos</small></div><div class="resource-amount" id="clothesRow">91 un.<small>disponíveis</small></div></div>
+        </div>
+        <div class="request-list hidden" id="requestList"></div>
+        <div class="notice"><strong>Importante:</strong> os números iniciais são dados fictícios para a apresentação escolar. Em uma aplicação real, os pedidos precisariam ser verificados por uma equipe responsável antes da distribuição.</div>
+      </div>
+    </section>
+
+
+    <section class="tracking-section" id="acompanhamento">
+      <div class="section-head">
+        <div><h2>Acompanhamento da comunidade</h2><p>Consulte os pedidos que ainda aguardam ajuda e as ofertas que já foram registradas.</p></div>
+      </div>
+      <div class="tracking-grid">
+        <div class="panel">
+          <div class="tracking-title"><div><h3>Pedidos pendentes</h3><p class="sub">Necessidades que ainda precisam ser atendidas.</p></div><span class="count-pill" id="pendingCount">0 pedidos</span></div>
+          <div class="request-list" id="pendingDashboard"></div>
+        </div>
+        <div class="panel">
+          <div class="tracking-title"><div><h3>Ajudas registradas</h3><p class="sub">Doações oferecidas por pessoas e organizações.</p></div><span class="count-pill" id="donationCount">0 ofertas</span></div>
+          <div class="request-list" id="donationDashboard"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about">
+      <div class="about-card"><h3>🌱 Nossa missão</h3><p>Usar a tecnologia para aproximar pessoas, distribuir recursos com mais organização e garantir que a ajuda chegue primeiro a quem mais precisa.</p></div>
+      <div class="about-card"><h3>🔐 Ajuda com responsabilidade</h3><p>O site é um protótipo educativo. Não publique dados pessoais sensíveis e não use os números demonstrativos para decisões reais de saúde ou emergência.</p></div>
+    </section>
+  </main>
+  <footer><strong>Conecta Vale</strong> · Vale do Horizonte, 2026<br>Projeto Maker — tecnologia, solidariedade e comunidade.</footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const initialStock = { 'Alimentos': 240, 'Água': 520, 'Higiene': 64, 'Roupas': 91, 'Material escolar': 38, 'Medicamentos': 0, 'Outro': 0 };
+    let stock = {...initialStock};
+    let requests = [
+      {id:1, name:'Família do bairro central', type:'Alimentos', qty:12, unit:'kg', people:4, urgency:'Alta', note:'Precisa de alimentos básicos para esta semana.', status:'Aberto'},
+      {id:2, name:'Morador(a) do bairro da estação', type:'Água', qty:20, unit:'litros', people:3, urgency:'Alta', note:'Abastecimento irregular na região.', status:'Aberto'},
+      {id:3, name:'Família do bairro das Flores', type:'Higiene', qty:2, unit:'kits', people:5, urgency:'Média', note:'Itens básicos de higiene pessoal.', status:'Aberto'},
+      {id:4, name:'Estudante da comunidade', type:'Material escolar', qty:1, unit:'kits', people:1, urgency:'Baixa', note:'Materiais para continuar os estudos.', status:'Aberto'}
+    ];
+    let donations = [];
+    let nextId = 5;
+    const icons = {'Alimentos':'🥫','Água':'💧','Higiene':'🧼','Roupas':'🧥','Material escolar':'📚','Medicamentos':'＋','Outro':'📦'};
+    const units = {'Alimentos':'kg','Água':'L','Higiene':'kits','Roupas':'un.','Material escolar':'kits','Medicamentos':'un.','Outro':'un.'};
+    const fmt = n => Number(n).toLocaleString('pt-BR', {maximumFractionDigits:2});
+    function setMode(mode) {
+      const donate = mode === 'doar';
+      document.getElementById('donateForm').classList.toggle('hidden', !donate);
+      document.getElementById('requestForm').classList.toggle('hidden', donate);
+      document.getElementById('tabDoar').classList.toggle('active', donate);
+      document.getElementById('tabPedir').classList.toggle('active', !donate);
+      document.getElementById('listTitle').textContent = donate ? 'Pedidos que precisam de atenção' : 'Pedidos cadastrados';
+      document.getElementById('listSub').textContent = donate ? 'Veja as necessidades cadastradas e o nível de urgência.' : 'Confira o status dos pedidos registrados neste protótipo.';
+      document.getElementById('stockList').classList.toggle('hidden', !donate);
+      document.getElementById('requestList').classList.toggle('hidden', donate);
+      if (!donate) renderRequests();
+      document.querySelector('.workspace').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    function showToast(message) {
+      const el = document.getElementById('toast');
+      el.textContent = message; el.classList.add('show');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => el.classList.remove('show'), 3400);
+    }
+    function renderStock() {
+      document.getElementById('foodStat').textContent = fmt(stock.Alimentos) + ' kg';
+      document.getElementById('waterStat').textContent = fmt(stock['Água']) + ' L';
+      document.getElementById('foodRow').innerHTML = `${fmt(stock.Alimentos)} kg<small>disponíveis</small>`;
+      document.getElementById('waterRow').innerHTML = `${fmt(stock['Água'])} L<small>disponíveis</small>`;
+      document.getElementById('hygieneRow').innerHTML = `${fmt(stock.Higiene)} kits<small>disponíveis</small>`;
+      document.getElementById('clothesRow').innerHTML = `${fmt(stock.Roupas)} un.<small>disponíveis</small>`;
+      const open = requests.filter(r => r.status === 'Aberto');
+      document.getElementById('openStat').textContent = open.length;
+      document.getElementById('peopleStat').textContent = open.reduce((sum,r) => sum + Number(r.people || 1), 0) + 19;
+      const needCount = open.length;
+      const percent = Math.max(10, Math.min(100, 100 - needCount * 8));
+      document.getElementById('heroProgress').style.width = percent + '%';
+      document.getElementById('heroProgressText').textContent = `${percent}% de indicador demonstrativo de organização dos recursos`;
+    }
+    function renderRequests() {
+      const list = document.getElementById('requestList');
+      const sorted = [...requests].sort((a,b) => ({Alta:0,'Média':1,Baixa:2}[a.urgency] - ({Alta:0,'Média':1,Baixa:2}[b.urgency])));
+      if (!sorted.length) { list.innerHTML = '<div class="empty">Ainda não há pedidos cadastrados.</div>'; return; }
+      list.innerHTML = sorted.map(r => `
+        <article class="request-card">
+          <div class="request-top"><div><h4>${escapeHtml(r.type)} · ${fmt(r.qty)} ${escapeHtml(r.unit)}</h4><div class="request-meta">${escapeHtml(r.name)} · ${fmt(r.people)} pessoa(s)</div></div><span class="tag ${r.urgency==='Alta'?'high':r.urgency==='Média'?'medium':'low'}">${escapeHtml(r.urgency)}</span></div>
+          ${r.note ? `<p>${escapeHtml(r.note)}</p>` : ''}
+          <div class="request-meta"><span class="tag ${r.status==='Atendido'?'low':'medium'}">${escapeHtml(r.status)}</span><span>Pedido #${r.id}</span></div>
+          <div class="request-actions">${r.status==='Aberto' ? `<button class="btn-small green" onclick="fulfillRequest(${r.id})">Marcar como atendido</button>` : ''}<button class="btn-small" onclick="removeRequest(${r.id})">Remover do exemplo</button></div>
+        </article>`).join('');
+    }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    document.getElementById('formDoar').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('donorName').value.trim();
+      const type = document.getElementById('donationType').value;
+      const qty = Number(document.getElementById('donationQty').value);
+      const unit = document.getElementById('donationUnit').value;
+      if (!name || !Number.isFinite(qty) || qty <= 0) return showToast('Confira o nome e a quantidade informada.');
+      donations.push({name,type,qty,unit,contact:document.getElementById('donationContact').value.trim(),note:document.getElementById('donationNote').value.trim(),status:'Oferta registrada'});
+      if (type === 'Alimentos' && unit === 'kg') stock[type] += qty;
+      else if (type === 'Água' && (unit === 'litros' || unit === 'L')) stock[type] += qty;
+      else if (type === 'Higiene' && unit === 'kits') stock[type] += qty;
+      else if (type === 'Roupas' && unit === 'unidades') stock[type] += qty;
+      renderStock(); renderTracking();
+      e.target.reset();
+      showToast('Oferta registrada neste protótipo. Obrigado por ajudar!');
+    });
+    document.getElementById('formPedir').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('residentName').value.trim();
+      const type = document.getElementById('needType').value;
+      const qty = Number(document.getElementById('needQty').value);
+      const unit = document.getElementById('needUnit').value;
+      const people = Number(document.getElementById('peopleCount').value);
+      const urgency = document.querySelector('input[name="urgency"]:checked').value;
+      const note = document.getElementById('needNote').value.trim();
+      if (!name || !Number.isFinite(qty) || qty <= 0 || people < 1) return showToast('Confira os dados do pedido.');
+      requests.push({id:nextId++,name,type,qty,unit,people,urgency,note,status:'Aberto'});
+      renderStock(); renderRequests(); renderTracking(); e.target.reset();
+      showToast('Pedido registrado. A equipe poderá revisar a prioridade.');
+    });
+    function fulfillRequest(id) {
+      const r = requests.find(item => item.id === id);
+      if (!r || r.status !== 'Aberto') return;
+      r.status = 'Atendido'; renderRequests(); renderStock(); renderTracking();
+      showToast('Pedido marcado como atendido neste protótipo.');
+    }
+    function removeRequest(id) {
+      requests = requests.filter(r => r.id !== id);
+      renderRequests(); renderStock(); renderTracking();
+      showToast('Pedido removido da demonstração.');
+    }
+
+    function renderTracking() {
+      const pending = requests.filter(r => r.status === 'Aberto').sort((a,b) => ({Alta:0,'Média':1,Baixa:2}[a.urgency] - ({Alta:0,'Média':1,Baixa:2}[b.urgency])));
+      const pendingEl = document.getElementById('pendingDashboard');
+      document.getElementById('pendingCount').textContent = `${pending.length} ${pending.length === 1 ? 'pedido' : 'pedidos'}`;
+      pendingEl.innerHTML = pending.length ? pending.map(r => `
+        <article class="dashboard-item">
+          <div class="dashboard-item-head"><strong>${icons[r.type] || '📦'} ${escapeHtml(r.type)} · ${fmt(r.qty)} ${escapeHtml(r.unit)}</strong><span class="tag ${r.urgency==='Alta'?'high':r.urgency==='Média'?'medium':'low'}">${escapeHtml(r.urgency)}</span></div>
+          <p>${escapeHtml(r.name)}${r.note ? ' — ' + escapeHtml(r.note) : ''}</p>
+          <div class="dashboard-meta"><span>${fmt(r.people)} pessoa(s)</span><span>·</span><span>Pedido #${r.id}</span></div>
+          <div class="request-actions"><button class="btn-small green" onclick="fulfillRequest(${r.id})">Marcar como atendido</button></div>
+        </article>`).join('') : '<div class="empty">Nenhum pedido pendente. Todos os pedidos estão atendidos!</div>';
+      const donationsEl = document.getElementById('donationDashboard');
+      document.getElementById('donationCount').textContent = `${donations.length} ${donations.length === 1 ? 'oferta' : 'ofertas'}`;
+      donationsEl.innerHTML = donations.length ? [...donations].reverse().map((d,i) => `
+        <article class="dashboard-item">
+          <div class="dashboard-item-head"><strong>${icons[d.type] || '📦'} ${escapeHtml(d.type)} · ${fmt(d.qty)} ${escapeHtml(d.unit)}</strong><span class="tag low">Registrada</span></div>
+          <p>De: ${escapeHtml(d.name)}${d.note ? ' — ' + escapeHtml(d.note) : ''}</p>
+          <div class="dashboard-meta">${d.contact ? `<span>Contato: ${escapeHtml(d.contact)}</span><span>·</span>` : ''}<span>Oferta #${donations.length-i}</span></div>
+        </article>`).join('') : '<div class="empty">Ainda não há ofertas registradas. As novas doações aparecerão aqui.</div>';
+    }
+
+    renderStock();
+    renderTracking();
+  </script>
+</body>
+</html>
